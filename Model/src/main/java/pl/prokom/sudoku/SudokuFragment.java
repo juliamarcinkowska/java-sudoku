@@ -7,7 +7,6 @@
 package pl.prokom.sudoku;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,10 +15,11 @@ import java.util.List;
  */
 public abstract class SudokuFragment {
 
-    private List<SudokuField> fragment = Arrays.asList(new SudokuField[9]);
+    protected List<SudokuField> fragment;
 
-    public SudokuFragment(List<SudokuField> frag) {
-        fragment = frag;
+    public SudokuFragment() {
+        
+        fragment = Arrays.asList(new SudokuField[9]);
     }
 
     /**
@@ -40,30 +40,9 @@ public abstract class SudokuFragment {
     }
     
     @Override
-    public int hashCode() {
-        return Objects.hashCode(this.fragment);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final SudokuFragment other = (SudokuFragment) obj;
-        
-        return Objects.equal(this.fragment, other.fragment);
-    }
-
-    @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("Fragment", fragment).toString();
-    } 
+                .add(" ", fragment).toString();
+    }
    
 }

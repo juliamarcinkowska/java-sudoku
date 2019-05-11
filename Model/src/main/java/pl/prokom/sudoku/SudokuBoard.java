@@ -7,50 +7,45 @@
 package pl.prokom.sudoku;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import java.util.Arrays;
 import java.util.List;
-
 
 /**
  * Klasa sudokuBoard.
  */
 public class SudokuBoard {
 
-    private SudokuField[][] board;
-
-    public SudokuBoard(SudokuField[][] sudokuboard) {
-        board = sudokuboard;
-    }
+    private List<List<SudokuField>> board = Arrays.asList(new List[9]);
 
     /**
-     * Funkcja inicjujaca dobra wielkosc tablicy sudoku.
-     *
-     * @param n int.
+     * Konstruktor SudokuBoard.
      */
-    public void setArray(int n) {
-        this.board = new SudokuField[n][n];
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                board[i][j] = new SudokuField();
-                board[i][j].setFieldValue(0);
+    public SudokuBoard() {
+        for (int i = 0; i < 9; i++) {
+            board.set(i, Arrays.asList(new SudokuField[9]));
+        }
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                this.board.get(i).set(j, new SudokuField());
             }
         }
+
     }
 
-    public SudokuField[][] getBoard() {
-        SudokuField[][] copy = board;
+    public List<List<SudokuField>> getBoard() {
+        List<List<SudokuField>> copy = board;
         return copy;
     }
 
     public int getNumber(int x, int y) {
-        return board[x][y].getFieldValue();
+        return board.get(x).get(y).getFieldValue();
     }
 
     public void setNumber(int x, int y, int value) {
-        board[x][y].setFieldValue(value);
+        board.get(x).get(y).setFieldValue(value);
     }
-    
+
     /**
      * Funkcja zwracajaca rzad z tablicy.
      *
@@ -58,11 +53,10 @@ public class SudokuBoard {
      * @return SudokuRow
      */
     public SudokuRow getRow(int x) {
-        List<SudokuField> fragment = Arrays.asList(new SudokuField[9]);
-        SudokuRow row = new SudokuRow(fragment, this.getBoard(), x);
+        SudokuRow row = new SudokuRow(this.getBoard(), x);
         return row;
     }
-    
+
     /**
      * Funkcja zwracajaca kolumne z tablicy.
      *
@@ -70,11 +64,10 @@ public class SudokuBoard {
      * @return SudokuColumn
      */
     public SudokuColumn getColumn(int y) {
-        List<SudokuField> fragment = Arrays.asList(new SudokuField[9]);
-        SudokuColumn column = new SudokuColumn(fragment, this.getBoard(), y);
+        SudokuColumn column = new SudokuColumn(this.getBoard(), y);
         return column;
     }
-    
+
     /**
      * Funkcja zwracajaca box z tablicy.
      *
@@ -83,8 +76,7 @@ public class SudokuBoard {
      * @return SudokuBox
      */
     public SudokuBox getBox(int x, int y) {
-        List<SudokuField> fragment = Arrays.asList(new SudokuField[9]);
-        SudokuBox box = new SudokuBox(fragment, this.getBoard(), x, y);
+        SudokuBox box = new SudokuBox(this.getBoard(), x, y);
         return box;
     }
 
@@ -96,15 +88,17 @@ public class SudokuBoard {
     public boolean checkBoard() {
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
-                if (board[row][col].getFieldValue() != 0) {
+                if (board.get(row).get(col).getFieldValue() != 0) {
                     for (int i = 0; i < 9; i++) {
-                        if ((board[row][i].getFieldValue() == board[row][col].getFieldValue())
+                        if ((board.get(row).get(i).getFieldValue()
+                                == board.get(row).get(col).getFieldValue())
                                 && (i != col)) {
                             return false;
                         }
                     }
                     for (int i = 0; i < 9; i++) {
-                        if ((board[i][col].getFieldValue() == board[row][col].getFieldValue())
+                        if ((board.get(i).get(col).getFieldValue()
+                                == board.get(row).get(col).getFieldValue())
                                 && (i != row)) {
                             return false;
                         }
@@ -113,7 +107,8 @@ public class SudokuBoard {
                     int cbox = col - col % 3;
                     for (int m = rbox; m < rbox + 3; m++) {
                         for (int n = cbox; n < cbox + 3; n++) {
-                            if (board[m][n].getFieldValue() == board[row][col].getFieldValue()
+                            if (board.get(m).get(n).getFieldValue()
+                                    == board.get(row).get(col).getFieldValue()
                                     && m != row && n != col) {
                                 return false;
                             }
@@ -128,7 +123,7 @@ public class SudokuBoard {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(this.board);
+        return com.google.common.base.Objects.hashCode(this.board);
     }
 
     @Override
@@ -143,14 +138,22 @@ public class SudokuBoard {
             return false;
         }
         final SudokuBoard other = (SudokuBoard) obj;
-        
-        return Objects.equal(this.board, other.board);
+
+        return com.google.common.base.Objects.equal(this.board, other.board);
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("Board", board).toString();
-    }    
-    
+                .add("\n", getRow(0))
+                .add("\n", getRow(1))
+                .add("\n", getRow(2))
+                .add("\n", getRow(3))
+                .add("\n", getRow(4))
+                .add("\n", getRow(5))
+                .add("\n", getRow(6))
+                .add("\n", getRow(7))
+                .add("\n", getRow(8)).toString();
+    }
+
 }

@@ -16,15 +16,21 @@ public class SudokuColumn extends SudokuFragment {
     /**
      * Konstruktor dla SudokuColumn.
      *
-     * @param frag SudokuField[]
      * @param board SudokuField[][]
      * @param c int.
      */
-    public SudokuColumn(List<SudokuField> frag, SudokuField[][] board, int c) {
-        super(frag);
+    public SudokuColumn(List<List<SudokuField>> board, int c) {
         for (int i = 0; i < 9; i++) {
-            frag.set(i, board[i][c]);
+            fragment.set(i, board.get(i).get(c));
         }
     }
-    
+
+    /**
+     * Konstruktor dla SudokuColumn.
+     */
+    public SudokuColumn() {
+        for (int i = 0; i < 9; i++) {
+            fragment.set(i, new SudokuField());
+        }
+    }    
 }

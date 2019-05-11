@@ -7,7 +7,6 @@
 package pl.prokom.sudoku;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 
 /**
  * Klasa SudokuField.
@@ -16,39 +15,29 @@ public class SudokuField {
 
     private int value;
 
+    public SudokuField() {
+        value = 0;
+    }
+
     public int getFieldValue() {
         int n = value;
         return n;
     }
-
+    
+    /**
+     * Ustawianie wartosci wybranego pola.
+     * @param value1 int
+     */
     public void setFieldValue(int value1) {
+        if (value1 < 0 || value1 > 9) {
+            throw new IllegalArgumentException("Value must be a number between 1 and 9 or EMPTY");
+        }
         value = value1;
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(this.value);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final SudokuField other = (SudokuField) obj;
-
-        return Objects.equal(this.value, other.value);
-    }
-
+    
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("Value", value).toString();
+                .add(" ", value).toString();
     }
 }

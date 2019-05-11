@@ -16,22 +16,29 @@ public class SudokuBox extends SudokuFragment {
     /**
      * Konstruktor dla SudokuBox.
      *
-     * @param frag SudokuField[]
-     * @param board SudokuField[][]
+     * @param board List< List < SudokuField > >
      * @param r int
      * @param c int.
      */
-    public SudokuBox(List<SudokuField> frag, SudokuField[][] board, int r, int c) {
-        super(frag);
+    public SudokuBox(List<List<SudokuField>> board, int r, int c) {
         int rbox = r - r % 3;
         int cbox = c - c % 3;
         int count = 0;
         for (int m = rbox; m < rbox + 3; m++) {
             for (int n = cbox; n < cbox + 3; n++) {
-                frag.set(count, board[m][n]);
+                fragment.set(count, board.get(m).get(n));
                 count++;
             }
         }
     }
-   
+
+    /**
+     * Konstruktor dla SudokuBox.
+     */
+    public SudokuBox() {
+        for (int i = 0; i < 9; i++) {
+            fragment.set(i, new SudokuField());
+        }
+    }
+
 }
