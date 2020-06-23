@@ -1,7 +1,5 @@
 # java-sudoku
 
-Projekt w trakcie tworzenia.
+Project was dropped.
 
-Finalnie ma zostać utworzona gra sudoku.
-
-Projekt był współtworzony z Weroniką Górecką (weronika.gorecka04@gmail.com).
+Project is supposed to be a fully functioning MVC Java application of famous sudoku game.
